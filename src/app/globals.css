@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-slate-50 text-slate-700 antialiased; }
+  h1, h2, h3, h4 { @apply font-display text-slate-900 tracking-tight; }
+  ::selection { @apply bg-sky-200 text-slate-900; }
+  :focus-visible { @apply outline-none ring-2 ring-sky-500 ring-offset-2 ring-offset-white; }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .card { @apply rounded-2xl border border-slate-200/80 bg-white shadow-soft; }
+  .kicker { @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-slate-500; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-dark { @apply btn bg-slate-900 text-white hover:bg-slate-800; }
+  .btn-light { @apply btn border border-slate-200 bg-white text-slate-900 hover:border-slate-300 hover:bg-slate-50; }
+  .input { @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-500/10; }
+  .label { @apply mb-1.5 block text-xs font-medium text-slate-600; }
+  .section { @apply py-16 sm:py-24; }
+  .h2 { @apply text-3xl font-bold sm:text-4xl; }
+  .prose-ru p { @apply leading-relaxed text-slate-600; }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image: linear-gradient(to right, rgb(148 163 184 / 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(148 163 184 / 0.12) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .bg-grid-dark {
+    background-image: linear-gradient(to right, rgb(148 163 184 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(148 163 184 / 0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .mask-fade-x { mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
