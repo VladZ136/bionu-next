@@ -76,18 +76,18 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={submit} className="relative space-y-4" noValidate>
+    <form onSubmit={submit} className="relative space-y-4" noValidate aria-describedby={error ? `${variant}-form-error` : undefined}>
       <Honeypot value={hp} onChange={setHp} />
 
       {variant === 'wholesale' && (
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className={label} htmlFor="w-company">Организация *</label>
-            <input id="w-company" className={input} autoComplete="organization" value={f.company} onChange={(e) => set('company', e.target.value)} />
+            <input id="w-company" name="company" className={input} autoComplete="organization" value={f.company} onChange={(e) => set('company', e.target.value)} required aria-required="true" />
           </div>
           <div>
             <label className={label} htmlFor="w-inn">ИНН</label>
-            <input id="w-inn" className={`${input} font-mono`} inputMode="numeric" maxLength={12} value={f.inn} onChange={(e) => set('inn', e.target.value.replace(/\D/g, ''))} />
+            <input id="w-inn" name="inn" className={`${input} font-mono`} inputMode="numeric" maxLength={12} value={f.inn} onChange={(e) => set('inn', e.target.value.replace(/\D/g, ''))} />
           </div>
         </div>
       )}
@@ -95,12 +95,12 @@ export function ContactForm({
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label className={label} htmlFor={`${variant}-name`}>{variant === 'wholesale' ? 'Контактное лицо *' : 'Имя *'}</label>
-          <input id={`${variant}-name`} className={input} autoComplete="name" value={f.name} onChange={(e) => set('name', e.target.value)} />
+          <input id={`${variant}-name`} name="name" className={input} autoComplete="name" value={f.name} onChange={(e) => set('name', e.target.value)} required aria-required="true" />
         </div>
         <div>
           <label className={label} htmlFor={`${variant}-phone`}>Телефон</label>
           <div className={dark ? '[&_input]:border-white/10 [&_input]:bg-white/5 [&_input]:text-white' : ''}>
-            <PhoneInput id={`${variant}-phone`} value={f.phone} onChange={(v) => set('phone', v)} />
+            <PhoneInput id={`${variant}-phone`} name="phone" value={f.phone} onChange={(v) => set('phone', v)} />
           </div>
         </div>
       </div>
@@ -109,12 +109,12 @@ export function ContactForm({
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className={label} htmlFor={`${variant}-email`}>Email</label>
-            <input id={`${variant}-email`} type="email" className={input} autoComplete="email" value={f.email} onChange={(e) => set('email', e.target.value)} />
+            <input id={`${variant}-email`} name="email" type="email" className={input} autoComplete="email" value={f.email} onChange={(e) => set('email', e.target.value)} />
           </div>
           {variant === 'contact' ? (
             <div>
               <label className={label} htmlFor="c-topic">Тема обращения</label>
-              <select id="c-topic" className={input} value={f.topic} onChange={(e) => set('topic', e.target.value)}>
+              <select id="c-topic" name="topic" className={input} value={f.topic} onChange={(e) => set('topic', e.target.value)}>
                 {CONTACT_TOPICS.map((t) => (
                   <option key={t}>{t}</option>
                 ))}
@@ -123,7 +123,7 @@ export function ContactForm({
           ) : (
             <div>
               <label className={label} htmlFor="w-region">Регион поставки</label>
-              <input id="w-region" className={input} value={f.region} onChange={(e) => set('region', e.target.value)} />
+              <input id="w-region" name="region" className={input} value={f.region} onChange={(e) => set('region', e.target.value)} />
             </div>
           )}
         </div>
@@ -133,10 +133,10 @@ export function ContactForm({
         <>
           <div>
             <label className={label} htmlFor="w-volume">Интересующий объём</label>
-            <input id="w-volume" className={input} placeholder="Например: 2 короба Крем-геля, 1 короб Лосьон-спрея" value={f.volume} onChange={(e) => set('volume', e.target.value)} />
+          <input id="w-volume" name="volume" className={input} placeholder="Например: 2 короба Крем-геля, 1 короб Лосьон-спрея" value={f.volume} onChange={(e) => set('volume', e.target.value)} />
           </div>
           <label className={`flex cursor-pointer items-center gap-2.5 text-sm ${dark ? 'text-slate-300' : 'text-slate-700'}`}>
-            <input type="checkbox" checked={f.samples} onChange={(e) => set('samples', e.target.checked)} className="h-4 w-4 accent-slate-900" />
+            <input type="checkbox" name="samples" checked={f.samples} onChange={(e) => set('samples', e.target.checked)} className="h-4 w-4 accent-slate-900" />
             Нужны тестовые образцы и копии деклараций
           </label>
         </>
@@ -144,13 +144,13 @@ export function ContactForm({
 
       <div>
         <label className={label} htmlFor={`${variant}-msg`}>{variant === 'quick' ? 'Вопрос' : 'Сообщение'}</label>
-        <textarea id={`${variant}-msg`} rows={variant === 'quick' ? 3 : 4} className={`${input} resize-none`} value={f.message} onChange={(e) => set('message', e.target.value)} />
+        <textarea id={`${variant}-msg`} name="message" rows={variant === 'quick' ? 3 : 4} className={`${input} resize-none`} value={f.message} onChange={(e) => set('message', e.target.value)} />
       </div>
 
       <Consent checked={consent} onChange={setConsent} dark={dark} />
 
       {error && (
-        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700" role="alert">
+        <p id={`${variant}-form-error`} className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700" role="alert">
           {error}
         </p>
       )}
