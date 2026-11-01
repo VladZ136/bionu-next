@@ -25,9 +25,14 @@ export function HeroMiniCard({ product }: { product: Product }) {
         <div className="mt-2 font-mono text-base font-bold text-slate-900">{formatPrice(product.price)}</div>
         <button
           type="button"
-          onClick={() => add(product.id)}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            add(product.id, 1, { open: false });
+          }}
           className={`mt-2.5 flex h-9 w-full items-center justify-center gap-1.5 rounded-lg text-xs font-semibold text-white transition ${a.bg} ${a.bgHover}`}
           aria-label={`Добавить ${product.name} в корзину`}
+          aria-pressed={inCart > 0}
         >
           {inCart > 0 ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
           {inCart > 0 ? `В корзине: ${inCart}` : 'В корзину'}
