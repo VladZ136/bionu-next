@@ -23,7 +23,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const a = find((await params).slug);
   if (!a) return {};
-  return { title: `${a.title} | Журнал ООО «РУСПЕНТА»`, description: a.excerpt };
+  return { title: `${a.title} | Журнал ООО «РУСПЕНТА»`, description: a.excerpt, alternates: { canonical: `/zhurnal/${a.slug}` } };
 }
 
 function Section({ s }: { s: ArticleSection }) {
