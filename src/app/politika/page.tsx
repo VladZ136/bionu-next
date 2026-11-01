@@ -3,6 +3,7 @@ import { siteContent } from '@/data/siteContent';
 
 export const metadata: Metadata = {
   title: 'Политика обработки персональных данных | ООО «РУСПЕНТА»',
+  alternates: { canonical: '/politika' },
   robots: { index: false },
 };
 

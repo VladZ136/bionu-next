@@ -34,6 +34,26 @@ export function CartDrawer() {
   }, [isOpen, close]);
 
   useEffect(() => {
+    if (!isOpen) return;
+    const onTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !panelRef.current) return;
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    window.addEventListener('keydown', onTab);
+    return () => window.removeEventListener('keydown', onTab);
+  }, [isOpen]);
+
+  useEffect(() => {
     if (!isOpen && step === 'done') setStep('cart');
   }, [isOpen, step]);
 
@@ -44,7 +64,7 @@ export function CartDrawer() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Корзина">
+    <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="cart-title">
       <div className="absolute inset-0 animate-fade-in bg-slate-900/40 backdrop-blur-sm" onClick={close} />
       <div
         ref={panelRef}
@@ -59,7 +79,7 @@ export function CartDrawer() {
               </button>
             )}
             <div>
-              <h2 className="text-lg font-bold">{step === 'checkout' ? 'Оформление заказа' : step === 'done' ? 'Заказ принят' : 'Корзина'}</h2>
+              <h2 id="cart-title" className="text-lg font-bold">{step === 'checkout' ? 'Оформление заказа' : step === 'done' ? 'Заказ принят' : 'Корзина'}</h2>
               {step !== 'done' && (
                 <p className="font-mono text-xs text-slate-500">
                   {count} {pluralItems(count)} · {formatPrice(total)}
@@ -265,16 +285,16 @@ function CheckoutForm({ onDone }: { onDone: (orderNo: string) => void }) {
         <Honeypot value={hp} onChange={setHp} />
         <div>
           <label className="label" htmlFor="co-name">Имя и фамилия *</label>
-          <input id="co-name" className="input" autoComplete="name" value={form.name} onChange={(e) => set('name')(e.target.value)} required />
+          <input id="co-name" name="name" className="input" autoComplete="name" value={form.name} onChange={(e) => set('name')(e.target.value)} required aria-required="true" />
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className="label" htmlFor="co-phone">Телефон *</label>
-            <PhoneInput id="co-phone" value={form.phone} onChange={set('phone')} required />
+            <PhoneInput id="co-phone" name="phone" value={form.phone} onChange={set('phone')} required />
           </div>
           <div>
             <label className="label" htmlFor="co-email">Email</label>
-            <input id="co-email" type="email" className="input" autoComplete="email" value={form.email} onChange={(e) => set('email')(e.target.value)} />
+            <input id="co-email" name="email" type="email" className="input" autoComplete="email" value={form.email} onChange={(e) => set('email')(e.target.value)} />
           </div>
         </div>
 
@@ -298,12 +318,12 @@ function CheckoutForm({ onDone }: { onDone: (orderNo: string) => void }) {
         {!pickup && (
           <div>
             <label className="label" htmlFor="co-address">Город и адрес доставки / ПВЗ *</label>
-            <input id="co-address" className="input" autoComplete="street-address" placeholder="Например: Москва, ПВЗ СДЭК на ул. …" value={form.address} onChange={(e) => set('address')(e.target.value)} />
+            <input id="co-address" name="address" className="input" autoComplete="street-address" placeholder="Например: Москва, ПВЗ СДЭК на ул. …" value={form.address} onChange={(e) => set('address')(e.target.value)} required aria-required="true" />
           </div>
         )}
         <div>
           <label className="label" htmlFor="co-comment">Комментарий к заказу</label>
-          <textarea id="co-comment" rows={3} className="input resize-none" value={form.comment} onChange={(e) => set('comment')(e.target.value)} />
+          <textarea id="co-comment" name="comment" rows={3} className="input resize-none" value={form.comment} onChange={(e) => set('comment')(e.target.value)} />
         </div>
         <Consent checked={consent} onChange={setConsent} />
       </div>

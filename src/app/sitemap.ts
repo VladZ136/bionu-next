@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { siteContent } from '@/data/siteContent';
+import { SITE_URL } from '@/lib/site';
 
-const BASE = 'https://bionu.online';
+const BASE = SITE_URL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = ['', '/dlya-vas', '/opt', '/zhurnal', '/svyaz'];

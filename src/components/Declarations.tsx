@@ -13,13 +13,13 @@ export function DeclarationButton({ product, dark = false }: { product: Product;
     : 'border-slate-200 bg-white text-slate-900 hover:border-slate-300 hover:bg-slate-50';
   if (exists) {
     return (
-      <a href={product.declaration.pdfUrl} download className={`btn border px-4 py-2.5 ${cls}`}>
-        <Download className="h-4 w-4" /> Скачать PDF
+      <a href={product.declaration.pdfUrl} download className={`btn border px-4 py-2.5 ${cls}`} aria-label={`Скачать декларацию о соответствии для ${product.name} в формате PDF`}>
+        <Download className="h-4 w-4" /> Скачать декларацию
       </a>
     );
   }
   return (
-    <Link href="/svyaz?tema=docs" className={`btn border px-4 py-2.5 ${cls}`} title="PDF-копия высылается по запросу">
+        <Link href="/svyaz?tema=docs" className={`btn border px-4 py-2.5 ${cls}`} title="PDF-копия высылается по запросу">
       <FileText className="h-4 w-4" /> Запросить PDF
     </Link>
   );

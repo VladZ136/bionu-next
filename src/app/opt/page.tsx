@@ -9,6 +9,7 @@ import { DeclarationButton } from '@/components/Declarations';
 export const metadata: Metadata = {
   title: siteContent.seo.b2b.title,
   description: siteContent.seo.b2b.description,
+  alternates: { canonical: '/opt' },
 };
 
 export default function OptPage() {

@@ -5,6 +5,7 @@ import { ArticleCard } from '@/components/Sections';
 export const metadata: Metadata = {
   title: siteContent.seo.journal.title,
   description: siteContent.seo.journal.description,
+  alternates: { canonical: '/zhurnal' },
 };
 
 export default function JournalPage() {

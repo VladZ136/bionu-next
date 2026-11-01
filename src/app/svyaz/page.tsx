@@ -8,6 +8,7 @@ import { topicFromParam } from '@/lib/topics';
 export const metadata: Metadata = {
   title: siteContent.seo.contacts.title,
   description: siteContent.seo.contacts.description,
+  alternates: { canonical: '/svyaz' },
 };
 
 type Props = { searchParams: Promise<{ tema?: string }> };

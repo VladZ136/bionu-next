@@ -7,6 +7,7 @@ import { accent, bundle, formatPrice, getProduct, products } from '@/lib/catalog
 import { AddToCart, BundleVisual, MarketplaceMenu, ProductVisual } from '@/components/ui';
 import { DeclarationButton } from '@/components/Declarations';
 import { Disclaimer } from '@/components/Sections';
+import { absoluteUrl } from '@/lib/site';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -22,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${p.name} — ${p.badge.toLowerCase()} · ${formatPrice(p.price)} | ООО «РУСПЕНТА»`,
     description: p.shortDesc,
+    alternates: { canonical: `/produkt/${p.slug}` },
     openGraph: { images: [p.image] },
   };
 }
@@ -46,15 +48,33 @@ export default async function ProductPage({ params }: Props) {
     '@type': 'Product',
     name: product.name,
     description: product.shortDesc,
-    image: `https://bionu.online${product.image}`,
+    image: absoluteUrl(product.image),
     brand: { '@type': 'Brand', name: siteContent.brand.name },
     manufacturer: { '@type': 'Organization', name: siteContent.brand.manufacturer },
-    offers: { '@type': 'Offer', price: product.price, priceCurrency: 'RUB', availability: 'https://schema.org/InStock' },
+    sku: product.id,
+    offers: {
+      '@type': 'Offer',
+      url: absoluteUrl(`/produkt/${product.slug}`),
+      price: product.price,
+      priceCurrency: 'RUB',
+      availability: 'https://schema.org/InStock',
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: absoluteUrl('/') },
+      { '@type': 'ListItem', position: 2, name: 'Продукция', item: absoluteUrl('/#catalog') },
+      { '@type': 'ListItem', position: 3, name: product.name, item: absoluteUrl(`/produkt/${product.slug}`) },
+    ],
   };
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       <div className="container-x pt-6">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500" aria-label="Хлебные крошки">
