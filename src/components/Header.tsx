@@ -93,6 +93,7 @@ export function Header() {
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Меню"
             aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -101,15 +102,15 @@ export function Header() {
 
       {menuOpen && (
         <div className="border-t border-slate-200/80 bg-white lg:hidden">
-          <nav className="container-x flex flex-col py-3" aria-label="Мобильная навигация">
+          <nav id="mobile-navigation" className="container-x flex flex-col py-3" aria-label="Мобильная навигация">
             {NAV.map((n) => (
-              <Link key={n.href} href={n.href} className="rounded-lg px-2 py-3 text-base font-medium text-slate-800 hover:bg-slate-50">
+              <Link key={n.href} href={n.href} onClick={() => setMenuOpen(false)} className="rounded-lg px-2 py-3 text-base font-medium text-slate-800 hover:bg-slate-50">
                 {n.label}
               </Link>
             ))}
             <div className="mt-2 grid gap-1 border-t border-slate-100 pt-3">
               {siteContent.brand.phones.map((p) => (
-                <a key={p} href={telHref(p)} className="flex items-center gap-2 px-2 py-2 font-mono text-sm text-slate-700">
+                <a key={p} href={telHref(p)} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-2 py-2 font-mono text-sm text-slate-700">
                   <Phone className="h-4 w-4 text-slate-400" /> {p}
                 </a>
               ))}
