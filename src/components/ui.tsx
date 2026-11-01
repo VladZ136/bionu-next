@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
-import { Check, ChevronDown, ExternalLink, Minus, Plus, ShoppingBag, Store } from 'lucide-react';
+import { Check, ChevronDown, Minus, Plus, ShoppingBag, Store } from 'lucide-react';
 import type { Product } from '@/data/siteContent';
 import { accent, products } from '@/lib/catalog';
 import { useCart } from '@/context/CartContext';
@@ -132,8 +132,9 @@ export function AddToCart({
 /* ───────────────────────── Маркетплейсы (заглушки) ───────────────────────── */
 
 const MARKETPLACES = [
-  { name: 'Ozon', color: 'bg-[#005BFF]', href: '#' },
-  { name: 'Wildberries', color: 'bg-[#CB11AB]', href: '#' },
+  { name: 'Ozon', color: 'bg-[#005BFF]' },
+  { name: 'Wildberries', color: 'bg-[#CB11AB]' },
+  { name: 'Яндекс Маркет', color: 'bg-[#FFCC00]' },
 ];
 
 export function MarketplaceMenu() {
@@ -155,6 +156,7 @@ export function MarketplaceMenu() {
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between gap-2 rounded-xl border border-dashed border-slate-300 px-3.5 py-2.5 text-sm font-medium text-slate-600 transition hover:border-slate-400 hover:text-slate-900"
         aria-expanded={open}
+        aria-label="Показать варианты покупки на Ozon, Wildberries и Яндекс Маркете"
       >
         <span className="flex items-center gap-2">
           <Store className="h-4 w-4" /> Купить на маркетплейсах
@@ -164,22 +166,18 @@ export function MarketplaceMenu() {
       {open && (
         <div className="absolute inset-x-0 bottom-full z-20 mb-2 animate-fade-in rounded-xl border border-slate-200 bg-white p-1.5 shadow-lift">
           {MARKETPLACES.map((m) => (
-            <a
+            <div
               key={m.name}
-              href={m.href}
-              onClick={(e) => e.preventDefault()}
-              className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm hover:bg-slate-50"
-              aria-disabled="true"
+              className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm"
             >
               <span className="flex items-center gap-2.5 font-medium text-slate-800">
                 <span className={`h-2.5 w-2.5 rounded-full ${m.color}`} />
                 {m.name}
-                <ExternalLink className="h-3.5 w-3.5 text-slate-300" />
               </span>
               <span className="rounded-md bg-amber-50 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-amber-700">
-                Скоро
+                Ссылка уточняется
               </span>
-            </a>
+            </div>
           ))}
         </div>
       )}
@@ -193,11 +191,13 @@ export function PhoneInput({
   value,
   onChange,
   id,
+  name,
   required,
 }: {
   value: string;
   onChange: (v: string) => void;
   id?: string;
+  name?: string;
   required?: boolean;
 }) {
   const ref = useRef<HTMLInputElement>(null);
@@ -231,6 +231,7 @@ export function PhoneInput({
     <input
       ref={ref}
       id={id}
+      name={name}
       type="tel"
       inputMode="tel"
       autoComplete="tel"
@@ -251,6 +252,7 @@ export function Consent({ checked, onChange, dark = false }: { checked: boolean;
     <label className={`flex cursor-pointer items-start gap-2.5 text-xs leading-relaxed ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
       <input
         type="checkbox"
+        name="consent"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
         className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 accent-slate-900"
@@ -258,7 +260,7 @@ export function Consent({ checked, onChange, dark = false }: { checked: boolean;
       />
       <span>
         Я даю согласие на обработку персональных данных в соответствии с Федеральным законом № 152-ФЗ и{' '}
-        <Link href="/politika" target="_blank" className={`underline underline-offset-2 ${dark ? 'hover:text-white' : 'hover:text-slate-900'}`}>
+        <Link href="/politika" target="_blank" rel="noopener noreferrer" className={`underline underline-offset-2 ${dark ? 'hover:text-white' : 'hover:text-slate-900'}`}>
           Политикой обработки персональных данных
         </Link>
         .
