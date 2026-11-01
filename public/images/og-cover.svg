@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Система АС · МА-1</title>
+  <desc id="desc">Барьерный и регенерирующий уход с технологией защитной микроплёнки</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eff6ff"/>
+      <stop offset="0.55" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#ffe4e6"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#94a3b8" stroke-opacity=".12"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="1020" cy="110" r="190" fill="#bae6fd" fill-opacity=".45"/>
+  <circle cx="170" cy="550" r="180" fill="#fecdd3" fill-opacity=".42"/>
+  <rect x="76" y="76" width="64" height="64" rx="18" fill="#0f172a"/>
+  <path d="M108 92 126 103v22l-18 11-18-11v-22Z" fill="none" stroke="#fff" stroke-width="3"/>
+  <text x="166" y="112" fill="#0f172a" font-family="Arial, sans-serif" font-size="28" font-weight="700">Система АС · МА-1</text>
+  <text x="78" y="280" fill="#0f172a" font-family="Arial, sans-serif" font-size="64" font-weight="800">Одна дышащая</text>
+  <text x="78" y="350" fill="#0f172a" font-family="Arial, sans-serif" font-size="64" font-weight="800">микроплёнка</text>
+  <text x="78" y="420" fill="#475569" font-family="Arial, sans-serif" font-size="30">Барьерный уход для чувствительной кожи</text>
+  <text x="78" y="520" fill="#e11d48" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="3">ООО «РУСПЕНТА» · СДЕЛАНО В РОССИИ</text>
+</svg>
