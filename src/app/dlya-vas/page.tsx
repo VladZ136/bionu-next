@@ -10,6 +10,7 @@ import { Disclaimer, SectionHead } from '@/components/Sections';
 export const metadata: Metadata = {
   title: siteContent.seo.forYou.title,
   description: siteContent.seo.forYou.description,
+  alternates: { canonical: '/dlya-vas' },
 };
 
 const STEP_ICONS = [Droplets, Layers, Sparkles];
