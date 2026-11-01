@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, Layers, ShieldCheck } from 'lucide-react';
 import { siteContent } from '@/data/siteContent';
 import { bundle, formatPrice, products } from '@/lib/catalog';
@@ -8,12 +9,45 @@ import { ScenarioNavigator } from '@/components/ScenarioNavigator';
 import { DeclarationsSection } from '@/components/Declarations';
 import { JournalPreview, Marquee, QuickContact, SectionHead } from '@/components/Sections';
 import { AddToCart, BundleVisual } from '@/components/ui';
+import { absoluteUrl } from '@/lib/site';
 
 const { hero } = siteContent;
 
+export const metadata: Metadata = {
+  title: siteContent.seo.home.title,
+  description: siteContent.seo.home.description,
+  alternates: { canonical: '/' },
+};
+
 export default function HomePage() {
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteContent.brand.manufacturer,
+    url: absoluteUrl('/'),
+    email: siteContent.brand.email,
+    telephone: siteContent.brand.phones[0],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'ул. Рябиновая, д. 44, пом. I, комн. 33',
+      addressLocality: 'Москва',
+      postalCode: '121471',
+      addressCountry: 'RU',
+    },
+  };
+
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteContent.brand.name,
+    url: absoluteUrl('/'),
+    inLanguage: 'ru-RU',
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       {/* ───────── HERO ───────── */}
       <section className="relative overflow-hidden">
         <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,#000_30%,transparent_75%)]" />
@@ -60,6 +94,23 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section aria-label="Ключевые факты о системе" className="border-y border-slate-200/80 bg-white">
+        <div className="container-x grid gap-3 py-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ['01', '3 формы ухода', 'Спрей, водный гель и крем-гель'],
+            ['02', 'Документы открыты', 'Декларации ЕАЭС доступны в PDF'],
+            ['03', 'Сделано в России', 'Производитель — ООО «РУСПЕНТА»'],
+            ['04', 'Подбор по ситуации', 'Готовые протоколы ухода'],
+          ].map(([num, title, text]) => (
+            <div key={num} className="rounded-xl bg-slate-50 px-4 py-3">
+              <span className="font-mono text-[10px] font-bold text-sky-600">{num}</span>
+              <p className="mt-1 font-semibold text-slate-900">{title}</p>
+              <p className="mt-0.5 text-xs leading-relaxed text-slate-500">{text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
