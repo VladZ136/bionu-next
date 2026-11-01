@@ -39,7 +39,7 @@ function buildMessage(type: string, id: string, b: Payload) {
     // Пересчитываем сумму на сервере — не доверяем ценам с клиента
     const t = computeTotals(items);
 
-    lines.push(`🛒 <b>Новый заказ ${id}</b> — bionu.online`, '');
+    lines.push(`🛒 <b>Новый заказ ${id}</b> — Система АС · МА-1`, '');
     t.lines.forEach((l) => lines.push(`• ${esc(itemName(l.id))} × ${l.qty} = ${formatPrice(l.lineTotal)}`));
     lines.push('');
     if (t.discount > 0) lines.push(`Комплект-скидка (${t.autoBundles} шт.): −${formatPrice(t.discount)}`);
@@ -50,11 +50,11 @@ function buildMessage(type: string, id: string, b: Payload) {
     row('Доставка', str(b.delivery, 120));
     row('Адрес / ПВЗ', str(b.address, 300));
     row('Комментарий', str(b.comment, 1000));
-    return { text: lines.join('\n'), subject: `Заказ ${id} на ${formatPrice(t.total)} — bionu.online` };
+    return { text: lines.join('\n'), subject: `Заказ ${id} на ${formatPrice(t.total)} — Система АС · МА-1` };
   }
 
   if (type === 'wholesale') {
-    lines.push(`📦 <b>Оптовый запрос ${id}</b> — bionu.online`, '');
+    lines.push(`📦 <b>Оптовый запрос ${id}</b> — Система АС · МА-1`, '');
     row('Организация', str(b.company, 200));
     row('ИНН', str(b.inn, 12));
     row('Контакт', str(b.name, 120));
@@ -67,7 +67,7 @@ function buildMessage(type: string, id: string, b: Payload) {
     return { text: lines.join('\n'), subject: `Оптовый запрос ${id}: ${str(b.company, 80)}` };
   }
 
-  lines.push(`✉️ <b>Обращение ${id}</b> — bionu.online`, '');
+  lines.push(`✉️ <b>Обращение ${id}</b> — Система АС · МА-1`, '');
   row('Тема', str(b.topic, 80) || 'Быстрая связь');
   row('Имя', str(b.name, 120));
   row('Телефон', str(b.phone, 32));
@@ -95,7 +95,7 @@ async function sendEmail(subject: string, html: string, replyTo?: string) {
   const port = Number(SMTP_PORT || 465);
   const transport = nodemailer.createTransport({ host: SMTP_HOST, port, secure: port === 465, auth: { user: SMTP_USER, pass: SMTP_PASS } });
   await transport.sendMail({
-    from: `"bionu.online" <${SMTP_USER}>`,
+    from: `"Система АС · МА-1" <${SMTP_USER}>`,
     to: process.env.ORDER_EMAIL_TO || '555penta@bk.ru',
     subject,
     html: `<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6">${html.replace(/\n/g, '<br>')}</div>`,
